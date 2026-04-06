@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Геометричний калькулятор</title>
+
+    <!-- Красивий каліграфічний шрифт -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Dancing Script', cursive;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #2a4d69;
+        }
+        .figure-section {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        input {
+            margin: 5px;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 80px;
+        }
+        button {
+            padding: 8px 15px;
+            border-radius: 10px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        svg {
+            width: 150px;
+            margin: 10px 0;
+        }
+        .result {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Геометричний калькулятор</h1>
+
+    <!-- Круг -->
+    <div class="figure-section">
+        <h2>Круг</h2>
+        <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="2" fill="none" />
+        </svg>
+        <div>
+            Радіус (r): <input type="number" id="circle-radius">
+            <br>
+            <button onclick="calculateCircle()">Розрахувати</button>
+        </div>
+        <div class="result" id="circle-result"></div>
+    </div>
+
+    <!-- Квадрат -->
+    <div class="figure-section">
+        <h2>Квадрат</h2>
+        <svg viewBox="0 0 100 100">
+            <rect x="10" y="10" width="80" height="80" stroke="black" stroke-width="2" fill="none" />
+        </svg>
+        <div>
+            Сторона (a): <input type="number" id="square-side">
+            <br>
+            <button onclick="calculateSquare()">Розрахувати</button>
+        </div>
+        <div class="result" id="square-result"></div>
+    </div>
+
+    <!-- Прямокутник -->
+    <div class="figure-section">
+        <h2>Прямокутник</h2>
+        <svg viewBox="0 0 120 80">
+            <rect x="10" y="10" width="100" height="60" stroke="black" stroke-width="2" fill="none" />
+        </svg>
+        <div>
+            Сторона a: <input type="number" id="rect-a"> 
+            Сторона b: <input type="number" id="rect-b">
+            <br>
+            <button onclick="calculateRectangle()">Розрахувати</button>
+        </div>
+        <div class="result" id="rect-result"></div>
+    </div>
+
+    <!-- Трикутник -->
+    <div class="figure-section">
+        <h2>Трикутник</h2>
+        <svg viewBox="0 0 100 100">
+            <polygon points="50,10 90,90 10,90" stroke="black" stroke-width="2" fill="none" />
+        </svg>
+        <div>
+            Сторона a: <input type="number" id="tri-a"> 
+            Сторона b: <input type="number" id="tri-b"> 
+            Сторона c: <input type="number" id="tri-c">
+            <br>
+            <button onclick="calculateTriangle()">Розрахувати</button>
+        </div>
+        <div class="result" id="tri-result"></div>
+    </div>
+
+    <script>
+        function calculateCircle() {
+            const r = parseFloat(document.getElementById('circle-radius').value);
+            if (r <= 0) { alert('Введіть правильний радіус'); return; }
+            const S = Math.PI * r * r;
+            const d = 2 * r;
+            const O = 2 * Math.PI * r;
+            document.getElementById('circle-result').innerHTML =
+                `Площа: ${S.toFixed(2)}, Діаметр: ${d.toFixed(2)}, Довжина кола: ${O.toFixed(2)}`;
+        }
+
+        function calculateSquare() {
+            const a = parseFloat(document.getElementById('square-side').value);
+            if (a <= 0) { alert('Введіть правильну сторону'); return; }
+            const S = a * a;
+            const P = 4 * a;
+            const d = a * Math.sqrt(2);
+            const r = a / 2;
+            const R = a * (Math.sqrt(2)/2);
+            document.getElementById('square-result').innerHTML =
+                `Площа: ${S.toFixed(2)}, Периметр: ${P.toFixed(2)}, Діагональ: ${d.toFixed(2)}, Радіус вписаного кола: ${r.toFixed(2)}, Радіус описаного кола: ${R.toFixed(2)}`;
+        }
+
+        function calculateRectangle() {
+            const a = parseFloat(document.getElementById('rect-a').value);
+            const b = parseFloat(document.getElementById('rect-b').value);
+            if (a <= 0 || b <= 0) { alert('Введіть правильні сторони'); return; }
+            const S = a * b;
+            const P = 2*(a+b);
+            const d = Math.sqrt(a*a + b*b);
+            const alpha = Math.atan(b/a) * (180/Math.PI);
+            const beta = Math.atan(a/b) * (180/Math.PI);
+            document.getElementById('rect-result').innerHTML =
+                `Площа: ${S.toFixed(2)}, Периметр: ${P.toFixed(2)}, Діагональ: ${d.toFixed(2)}, Кут між діагоналями α: ${alpha.toFixed(2)}°, β: ${beta.toFixed(2)}°`;
+        }
+
+        function calculateTriangle() {
+            const a = parseFloat(document.getElementById('tri-a').value);
+            const b = parseFloat(document.getElementById('tri-b').value);
+            const c = parseFloat(document.getElementById('tri-c').value);
+            if (a <= 0 || b <= 0 || c <= 0) { alert('Введіть правильні сторони'); return; }
+            const p = (a+b+c)/2;
+            const S = Math.sqrt(p*(p-a)*(p-b)*(p-c));
+            const r = S/p;
+            const R = (a*b*c)/(4*S);
+            document.getElementById('tri-result').innerHTML =
+                `Площа: ${S.toFixed(2)}, Периметр: ${(a+b+c).toFixed(2)}, Радіус вписаного кола: ${r.toFixed(2)}, Радіус описаного кола: ${R.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
